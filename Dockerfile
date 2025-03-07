@@ -1,15 +1,15 @@
 
 # Use an official Python runtime as a parent image
-FROM python:3.8-slim
+FROM ghcr.io/astral-sh/uv:debian
 
 # Set the working directory to /app
 WORKDIR /app
 
 # Copy only the poetry.lock and pyproject.toml to leverage Docker cache
-COPY pyproject.toml poetry.lock /app/
+COPY pyproject.toml uv.lock /app/
 
 # Install poetry and dependencies
-RUN pip install poetry && poetry install --no-root --no-dev
+RUN uv sync
 
 # Copy the current directory contents into the container at /app
 COPY . /app
@@ -21,4 +21,4 @@ EXPOSE 80
 ENV NAME World
 
 # Run app.py when the container launches
-CMD ["poetry", "run", "flask", "run", "--host=0.0.0.0"]
+CMD ["uv", "run", "flask", "run", "--host=0.0.0.0"]

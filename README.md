@@ -10,9 +10,9 @@ Bäckerone was created while cycling with my friends with the idea to take the c
 
 
 ```
-1. create data.json and set the driver to "JSON" or leave it as it is and use sqlite
-2. install deps (poetry install)
+1. create data/data.json and set the driver to "JSON" or leave it as it is and use sqlite
+2. install deps (uv sync)
 3. set passphrase via env var: PASSPHRASE default: ichessegernekuchen
-4. start server (poetry run python -m flask run)
+4. start server via: uv run flask run --debug
 ```
 

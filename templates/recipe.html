@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-3">{{r.title|e}}</h1>
+
+    {% if has_image %}
+    <img src="{{ img_url }}" class="img-fluid mb-3" alt="{{r.title|e}}">
+    {% endif %}
+
+    <h4 class="text-muted">Tags: {{r.tags|e}}</h4>
+
+    <h3 class="mt-4">Zutaten:</h3>
+    <div class="card p-3 mb-3">
+        <p class="pre mb-0">{{r.ingredients|e}}</p>
+    </div>
+
+    <h3>Zubereitung:</h3>
+    <div class="card p-3 mb-3">
+        <p class="pre mb-0">{{r.prep|e}}</p>
+    </div>
+
+    <a href="/e/{{r.id}}" class="btn btn-primary">Editieren</a>
+</div>
+{% endblock %}

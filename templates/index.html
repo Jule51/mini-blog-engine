@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<script>
+    function filterRecipes() {
+        let filter = document.getElementById('recipesFilter').value.toUpperCase();
+        for (let li of document.getElementById('recipesList').getElementsByTagName('li')) {
+            let a = li.getElementsByTagName('a')[0];
+            let txtValue = (a.textContent || a.innerText) + " " + li.getElementsByTagName('span')[0].innerText;
+            li.style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? "" : "none";
+        }
+    }
+
+    function sortRecipes() {
+        let list = document.getElementById('recipesList');
+        let sortSelector = document.getElementById('sortSelector');
+        Array.from(list.getElementsByTagName('li'))
+            .sort((a, b) => (sortSelector.value === 'asc' ? 1 : -1) * (a.innerText).localeCompare(b.innerText))
+            .forEach(item => list.appendChild(item));
+    }
+</script>
+
+<h1 style="font-family: 'Comic Sans MS', cursive; font-size: 2em; color: red; text-shadow: 2px 2px 5px yellow; margin-top: 100px;">Willkommen bei Corgijans Rezepten</h1>
+<div class="container mt-4" style="background: rgba(68,255,0,0.62); border: 2px solid #000; padding: 10px;">
+    <p style="font-size: 1.2em; font-family: 'Comic Sans MS', cursive;">Dies ist ein "Code-Golf" Projekt mit ~250 Zeilen Code und dem Look eines Blogs von 1999.</p>
+
+    <h3 style="font-family: 'Comic Sans MS', cursive; color: blue;">Rezepte</h3>
+
+    <div class="input-group mb-3" style="border: 2px solid red; border-radius: 5px;">
+        <input type="text" id="recipesFilter" onkeyup="filterRecipes()" class="form-control" placeholder="Suche" style="border: 2px dashed red;">
+        <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('recipesFilter').value = ''; filterRecipes();">
+            X
+        </button>
+    </div>
+
+    {% if recipes_count >= 50 %}
+    <div class="mb-3" style="border: 2px solid green; padding: 10px; border-radius: 5px;">
+        <select id="sortSelector" class="form-control w-auto d-inline" onchange="sortRecipes()" style="background-color: #ff0; color: #000; border: 2px dashed blue;">
+            <option value="asc">Aufsteigend</option>
+            <option value="desc">Absteigend</option>
+        </select>
+    </div>
+    {% endif %}
+
+    <ul id="recipesList" class="list-group">
+        {% for r in recipes %}
+        <li class="list-group-item" style="border: 2px solid #000; background-color: #ffcc00; margin-bottom: 10px;">
+            <a href="/r/{{r.id|e}}" class="text-decoration-none" style="color: red; font-size: 1.2em;">
+                <h5 class="mb-1" style="font-family: 'Comic Sans MS', cursive; color: #000;">{{ r.title|e }}</h5>
+            </a>
+            <small class="d-none" style="color: blue;">{{ r.tags|e }}</small>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
