@@ -1,4 +1,4 @@
-from flask import Flask, redirect, make_response, request, session, g, url_for, render_template
+from flask import Flask, redirect, make_response, request, session, g, url_for, render_template, send_from_directory
 import jinja2, uuid, os, sqlite3, json
 import os
 
@@ -120,3 +120,8 @@ def get_rezept(id):
         recipe_row = get_sqlite_db().cursor().execute(
             "SELECT title, ingredients, prep, tags, id, cvss FROM recipes WHERE id = ?", (id,)).fetchone()
     return dict(recipe_row) if recipe_row is not None else None
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')

@@ -3,10 +3,11 @@
 <script>
     function filterRecipes() {
         let filter = document.getElementById('recipesFilter').value.toUpperCase();
-        for (let li of document.getElementById('recipesList').getElementsByTagName('li')) {
-            let a = li.getElementsByTagName('a')[0];
-            let txtValue = (a.textContent || a.innerText) + " " + li.getElementsByTagName('span')[0].innerText;
-            li.style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? "" : "none";
+        for (let recipeItem of document.getElementById('recipesList').getElementsByTagName('li')) {
+            let recipeTags = recipeItem.getElementsByTagName('small')[0].innerText;
+            let recipeName = recipeItem.getElementsByTagName('a')[0];
+            let txtValue = (recipeName.textContent || recipeName.innerText);
+            recipeItem.style.display = ((txtValue.toUpperCase().indexOf(filter) > -1) || (recipeTags.toUpperCase().indexOf(filter) > -1)) ? "" : "none";
         }
     }
 
@@ -19,22 +20,22 @@
     }
 </script>
 
-<h1 style="font-family: 'Comic Sans MS', cursive; font-size: 2em; color: red; text-shadow: 2px 2px 5px yellow; margin-top: 100px;">Willkommen bei Corgijans Rezepten</h1>
-<div class="container mt-4" style="background: rgba(68,255,0,0.62); border: 2px solid #000; padding: 10px;">
-    <p style="font-size: 1.2em; font-family: 'Comic Sans MS', cursive;">Dies ist ein "Code-Golf" Projekt mit ~250 Zeilen Code und dem Look eines Blogs von 1999.</p>
+<h1 class="header">Willkommen bei Corgijans Rezepten</h1>
+<div class="mt-4">
+    <p>Dies ist ein "Code-Golf" Projekt mit ~250 Zeilen Code und dem Look eines Blogs von 1999.</p>
 
-    <h3 style="font-family: 'Comic Sans MS', cursive; color: blue;">Rezepte</h3>
+    <h3>Rezepte</h3>
 
-    <div class="input-group mb-3" style="border: 2px solid red; border-radius: 5px;">
-        <input type="text" id="recipesFilter" onkeyup="filterRecipes()" class="form-control" placeholder="Suche" style="border: 2px dashed red;">
+    <div class="input-group mb-3">
+        <input type="text" id="recipesFilter" onkeyup="filterRecipes()" class="form-control" placeholder="Suche">
         <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('recipesFilter').value = ''; filterRecipes();">
             X
         </button>
     </div>
 
     {% if recipes_count >= 50 %}
-    <div class="mb-3" style="border: 2px solid green; padding: 10px; border-radius: 5px;">
-        <select id="sortSelector" class="form-control w-auto d-inline" onchange="sortRecipes()" style="background-color: #ff0; color: #000; border: 2px dashed blue;">
+    <div class="mb-3" >
+        <select id="sortSelector" class="form-control w-auto d-inline" onchange="sortRecipes()" style="background-color: #E9C46A; color: #000; border: 2px dashed blue;">
             <option value="asc">Aufsteigend</option>
             <option value="desc">Absteigend</option>
         </select>
@@ -43,9 +44,9 @@
 
     <ul id="recipesList" class="list-group">
         {% for r in recipes %}
-        <li class="list-group-item" style="border: 2px solid #000; background-color: #ffcc00; margin-bottom: 10px;">
-            <a href="/r/{{r.id|e}}" class="text-decoration-none" style="color: red; font-size: 1.2em;">
-                <h5 class="mb-1" style="font-family: 'Comic Sans MS', cursive; color: #000;">{{ r.title|e }}</h5>
+        <li class="list-group-item" style="border: 2px solid #000; background-color: #E9C46A; margin-bottom: 10px;">
+            <a href="/r/{{r.id|e}}" class="text-decoration-none" style="font-size: 1.2em;">
+                <h5 class="mb-1" style="color: #000;">{{ r.title|e }}</h5>
             </a>
             <small class="d-none" style="color: blue;">{{ r.tags|e }}</small>
         </li>
